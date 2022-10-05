@@ -1,0 +1,78 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	padding: 5px 5px 45px 5px;
+	margin-bottom: 30px;
+}
+.header {
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.radio-group {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px;
+	margin-top: 15px;
+}
+.container-reviews {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.reviews-label {
+	margin-bottom: 5px !important;
+}
+
+.container-input {
+	padding: 5px;
+	margin-bottom: 15px;
+}
+
+.container-description {
+	margin-top: 15px;
+}
+
+.button-container {
+	background: linear-gradient(
+		180deg,
+		rgba(250, 250, 250, 0.0001) 0%,
+		rgba(250, 250, 250, 0.92) 14.87%,
+		#ffffff 31.71%,
+		#ffffff 100%
+	);
+	position: fixed;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+}
+.button {
+	margin: 10px;
+	width: 160px;
+}
+
+.container-ingredients {
+	width: 100%;
+}
+
+.ingredients-array {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	align-items: center;
+	align-self: center;
+}
+.container-input-ingredients {
+	background: #fdfdfd;
+	width: 50%;
+	text-align: center;
+	// border: 1px solid #54b5ba;
+	// border-radius: 4px;
+	// padding: 5px;
+	// margin: 5px;
+}

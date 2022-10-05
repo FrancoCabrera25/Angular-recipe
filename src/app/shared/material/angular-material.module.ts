@@ -9,6 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
 	declarations: [],
@@ -22,7 +25,10 @@ import { MatSelectModule } from '@angular/material/select';
 		MatSelectModule,
 		MatInputModule,
 		MatRadioModule,
-		MatDividerModule
+		MatDividerModule,
+		MatTableModule,
+		MatSidenavModule,
+		MatSlideToggleModule
 	],
 	exports: [
 		MatCardModule,
@@ -34,7 +40,10 @@ import { MatSelectModule } from '@angular/material/select';
 		MatSelectModule,
 		MatInputModule,
 		MatRadioModule,
-		MatDividerModule
+		MatDividerModule,
+		MatTableModule,
+		MatSidenavModule,
+		MatSlideToggleModule
 	],
 	providers: []
 })

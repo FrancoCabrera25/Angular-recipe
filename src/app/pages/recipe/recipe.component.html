@@ -1,0 +1,29 @@
+<mat-drawer-container class="example-container" [hasBackdrop]="true">
+	<mat-drawer-content>
+		<div class="container">
+			<h1>Recipe</h1>
+
+			<app-recipe-table
+				*ngIf="recipeList.length > 0"
+				[dataSource]="recipeList"
+				[displayedColumns]="tableColumns"
+			></app-recipe-table>
+
+			<div class="button-add">
+				<button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="addRecipe()">
+					<mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+				</button>
+			</div>
+		</div>
+	</mat-drawer-content>
+	<mat-drawer
+		#drawer
+		class="example-sidenav"
+		[opened]="openDrawer"
+		[mode]="'over'"
+		position="end"
+		[disableClose]="false"
+	>
+		<app-recipe-form (buttonClickedEvent)="closeDrawer()"></app-recipe-form>
+	</mat-drawer>
+</mat-drawer-container>
