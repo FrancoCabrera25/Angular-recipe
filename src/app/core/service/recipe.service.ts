@@ -36,6 +36,7 @@ export class RecipeService {
 			}
 			return oldRecipe;
 		});
+		this.setRecipeByLocalStorage(current);
 		this.currentRecipe.next(current);
 	}
 

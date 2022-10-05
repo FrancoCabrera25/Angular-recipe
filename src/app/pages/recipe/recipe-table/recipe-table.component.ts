@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { RecipeDifficultylevelEnum } from 'src/app/shared/enums/recipe-enums';
+import { RecipeService } from '../../../core/service/recipe.service';
 import { IRecipe } from '../../../shared/interface/recipe.interface';
 
 @Component({
@@ -13,6 +16,8 @@ export class RecipeTableComponent implements OnInit {
 	//['position', 'name', 'weight', 'symbol'];
 	@Input() dataSource: IRecipe[] = [];
 	recipeSelected!: IRecipe;
+
+	constructor(private recipeService: RecipeService) {}
 	ngOnInit(): void {
 		// for (const column of this.displayedColumns.keys()) {
 		// 	console.log('column', column);
@@ -23,5 +28,30 @@ export class RecipeTableComponent implements OnInit {
 	selectRecipeRow(recipe: IRecipe): void {
 		this.recipeSelected = recipe;
 		console.log(recipe);
+	}
+
+	getBadgeDifficultyLevel(level: string): string {
+		return RecipeDifficultylevelEnum.EASY === level
+			? 'badge-difficulty-level-easy'
+			: RecipeDifficultylevelEnum.MIDDLE == level
+			? 'badge-difficulty-level-middle'
+			: RecipeDifficultylevelEnum.HARD === level
+			? 'badge-difficulty-level-hard'
+			: '';
+	}
+	setRanking(recipe: IRecipe, reviews: number): void {
+		const updateRecipe: IRecipe = {
+			...recipe,
+			reviews
+		};
+		this.recipeService.updateRecipe(updateRecipe);
+	}
+
+	setCookedBefore(recipe: IRecipe, { checked }: MatSlideToggleChange): void {
+		const updateRecipe: IRecipe = {
+			...recipe,
+			cookedBefore: checked
+		};
+		this.recipeService.updateRecipe(updateRecipe);
 	}
 }

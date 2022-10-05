@@ -6,3 +6,21 @@ table {
 .tr-row {
 	background-color: #ebf0f3;
 }
+
+.badge-difficulty-level {
+	padding: 6px 18px;
+	border-radius: 35px;
+	background-color: #ebf0f3;
+	color: white;
+}
+.badge-difficulty-level-easy {
+	background-color: #00e676;
+}
+
+.badge-difficulty-level-middle {
+	background-color: #0039cb;
+}
+
+.badge-difficulty-level-hard {
+	background-color: #ff616f;
+}

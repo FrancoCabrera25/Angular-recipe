@@ -13,7 +13,7 @@ export class RecipeComponent implements OnInit {
 	//tableColumns: Map<string, string> = new Map<string, string>();
 	/* A variable that contains the mock data. */
 	recipeList: IRecipe[] = [];
-	tableColumns: Array<string> = ['name', 'reviews', 'cookedBefore'];
+	tableColumns: Array<string> = ['name', 'difficultyLevel', 'reviews', 'cookedBefore'];
 	openDrawer: boolean = false;
 	constructor(private recipeService: RecipeService) {}
 	ngOnInit(): void {

@@ -1,24 +1,34 @@
 <table mat-table [dataSource]="dataSource">
 	<ng-container matColumnDef="name">
-		<th mat-header-cell cdkDrag *matHeaderCellDef class="header-title">Recipe name</th>
+		<th mat-header-cell cdkDrag *matHeaderCellDef class="header-title">Nombre</th>
 		<td mat-cell *matCellDef="let element" class="rows-name" [ngClass]="{ 'cooked-not-before': !element.cookedBefore }">
 			{{ element.title }}
 		</td>
 	</ng-container>
+	<ng-container matColumnDef="difficultyLevel">
+		<th mat-header-cell cdkDrag *matHeaderCellDef class="header-title">Dificultad</th>
+		<td mat-cell *matCellDef="let element" class="rows-name">
+			<span class="badge-difficulty-level" [ngClass]="getBadgeDifficultyLevel(element.difficultyLevel)">{{
+				element.difficultyLevel
+			}}</span>
+		</td>
+	</ng-container>
 
 	<ng-container matColumnDef="reviews">
-		<th mat-header-cell cdkDrag *matHeaderCellDef class="header-title">Reviews</th>
+		<th mat-header-cell cdkDrag *matHeaderCellDef class="header-title">Calificación</th>
 		<td mat-cell *matCellDef="let element">
-			{{ element.reviews }}
-			<!-- <app-rating [element]="element.reviews" (rankingSelectedEvent)="setRanking($event,element)" ></app-rating> -->
+			<app-rating [element]="element.reviews" (rankingSelectedEvent)="setRanking(element, $event)"></app-rating>
 		</td>
 		<ng-container matColumnDef="cookedBefore" class="header-title">
-			<th mat-header-cell cdkDrag *matHeaderCellDef>Cooked before</th>
+			<th mat-header-cell cdkDrag *matHeaderCellDef>Utilizada</th>
 			<td mat-cell *matCellDef="let element">
-				{{ element.cookedBefore }}
-				<!-- <mat-slide-toggle class="toggle" [color]="'#8DC63F'" [checked]="element.cookedBefore" (change)="setCookedBefore(element)"></mat-slide-toggle> -->
-			</td>
-		</ng-container>
+				<mat-slide-toggle
+					class="toggle"
+					[color]="'#8DC63F'"
+					[checked]="element.cookedBefore"
+					(change)="setCookedBefore(element, $event)"
+				></mat-slide-toggle></td
+		></ng-container>
 	</ng-container>
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 	<tr
