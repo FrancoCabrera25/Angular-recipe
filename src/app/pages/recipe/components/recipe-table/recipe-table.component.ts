@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { RecipeDifficultylevelEnum } from 'src/app/shared/enums/recipe-enums';
-import { RecipeService } from '../../../core/service/recipe.service';
-import { IRecipe } from '../../../shared/interface/recipe.interface';
+import { RecipeService } from '../../../../core/service/recipe.service';
+import { IRecipe } from '../../../../shared/interface/recipe.interface';
 
 @Component({
 	selector: 'app-recipe-table',
@@ -15,6 +15,7 @@ export class RecipeTableComponent implements OnInit {
 	// columnNames: any[] = [];
 	//['position', 'name', 'weight', 'symbol'];
 	@Input() dataSource: IRecipe[] = [];
+	@Output() recipeSelectedEvent = new EventEmitter<IRecipe>();
 	recipeSelected!: IRecipe;
 
 	constructor(private recipeService: RecipeService) {}
@@ -27,7 +28,7 @@ export class RecipeTableComponent implements OnInit {
 
 	selectRecipeRow(recipe: IRecipe): void {
 		this.recipeSelected = recipe;
-		console.log(recipe);
+		this.recipeSelectedEvent.emit(recipe);
 	}
 
 	getBadgeDifficultyLevel(level: string): string {

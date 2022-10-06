@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { RecipeService } from '../../core/service/recipe.service';
@@ -8,7 +8,7 @@ import { IRecipe } from '../../shared/interface/recipe.interface';
 	templateUrl: './recipe.component.html',
 	styleUrls: ['./recipe.component.scss']
 })
-export class RecipeComponent implements OnInit {
+export class RecipeComponent implements OnInit, OnDestroy {
 	private destroy$: Subject<void> = new Subject<void>();
 	//tableColumns: Map<string, string> = new Map<string, string>();
 	/* A variable that contains the mock data. */
@@ -34,6 +34,10 @@ export class RecipeComponent implements OnInit {
 	addRecipe(): void {
 		this.openDrawer = true;
 	}
+	updateRecipe(recipe: IRecipe): void {
+		this.recipeService.setRecipeSelected(recipe);
+		this.showSidenav();
+	}
 
 	closeDrawer(): void {
 		this.openDrawer = false;
@@ -41,5 +45,10 @@ export class RecipeComponent implements OnInit {
 
 	showSidenav(): void {
 		this.openDrawer = !this.openDrawer;
+	}
+
+	ngOnDestroy(): void {
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 }

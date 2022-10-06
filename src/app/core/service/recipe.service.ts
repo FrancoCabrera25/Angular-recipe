@@ -4,8 +4,12 @@ import * as uuid from 'uuid';
 import { IRecipe } from '../../shared/interface/recipe.interface';
 @Injectable()
 export class RecipeService {
-	public currentRecipe = new BehaviorSubject<IRecipe[]>([]);
+	private currentRecipe = new BehaviorSubject<IRecipe[]>([]);
 	currentRecipe$: Observable<IRecipe[]> = this.currentRecipe.asObservable();
+
+	private recipeSelected = new BehaviorSubject<IRecipe>({} as IRecipe);
+	recipeSelected$: Observable<IRecipe> = this.recipeSelected.asObservable();
+
 	constructor() {
 		this.loadRecipe();
 	}
@@ -13,6 +17,12 @@ export class RecipeService {
 		this.currentRecipe.next(this.getRecipeByLocalStorage());
 	}
 
+	setRecipeSelected(recipe: IRecipe): void {
+		this.recipeSelected.next(recipe);
+	}
+	cleanRecipeSelected(): void {
+		this.recipeSelected.next({} as IRecipe);
+	}
 	addRecipe(recipe: IRecipe): void {
 		recipe.id = uuid.v4();
 		recipe.creationDate = new Date();
