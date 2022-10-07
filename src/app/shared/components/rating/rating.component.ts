@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class RatingComponent implements OnInit {
 	constructor() {}
+	@Input() disabled: boolean = false;
 	@Input() color: string = 'accent';
 	@Input() element: number = 0;
 	@Output() rankingSelectedEvent = new EventEmitter<number>();

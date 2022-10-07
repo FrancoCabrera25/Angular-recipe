@@ -22,12 +22,13 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 	@Output() buttonClickedEvent = new EventEmitter<void>();
 
 	difficultyLevel: any[] = [
-		{ id: RecipeDifficultylevelEnum.EASY, text: RecipeDifficultylevelEnum.EASY.toString() },
+		{ id: RecipeDifficultylevelEnum.BEGINNER, text: RecipeDifficultylevelEnum.BEGINNER.toString() },
 		{ id: RecipeDifficultylevelEnum.MIDDLE, text: RecipeDifficultylevelEnum.MIDDLE.toString() },
-		{ id: RecipeDifficultylevelEnum.HARD, text: RecipeDifficultylevelEnum.HARD.toString() }
+		{ id: RecipeDifficultylevelEnum.PROFESSIONAL, text: RecipeDifficultylevelEnum.PROFESSIONAL.toString() }
 	];
 
 	ngOnInit(): void {
+		window.scrollTo(0, 0);
 		this.initForm();
 		this.recipeService.recipeSelected$.pipe(takeUntil(this.destroy$)).subscribe((_recipe) => {
 			if (Object.keys(_recipe).length > 0) {
@@ -54,7 +55,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 			difficultyLevel: [recipe ? recipe.difficultyLevel : '', Validators.required],
 			reviews: [recipe ? recipe.reviews : '', Validators.required],
 			preparation: [recipe ? recipe.preparation : '', Validators.required],
-			cookedBefore: [recipe ? recipe.cookedBefore : '', Validators.required]
+			cookedBefore: [recipe ? recipe.cookedBefore : '']
 		});
 	}
 	clearForm(): void {

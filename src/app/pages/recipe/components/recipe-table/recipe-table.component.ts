@@ -27,16 +27,17 @@ export class RecipeTableComponent implements OnInit {
 	}
 
 	selectRecipeRow(recipe: IRecipe): void {
+		console.log('selected');
 		this.recipeSelected = recipe;
 		this.recipeSelectedEvent.emit(recipe);
 	}
 
 	getBadgeDifficultyLevel(level: string): string {
-		return RecipeDifficultylevelEnum.EASY === level
+		return RecipeDifficultylevelEnum.BEGINNER === level
 			? 'badge-difficulty-level-easy'
 			: RecipeDifficultylevelEnum.MIDDLE == level
 			? 'badge-difficulty-level-middle'
-			: RecipeDifficultylevelEnum.HARD === level
+			: RecipeDifficultylevelEnum.PROFESSIONAL === level
 			? 'badge-difficulty-level-hard'
 			: '';
 	}
@@ -49,10 +50,15 @@ export class RecipeTableComponent implements OnInit {
 	}
 
 	setCookedBefore(recipe: IRecipe, { checked }: MatSlideToggleChange): void {
+		this.recipeSelected = {} as IRecipe;
 		const updateRecipe: IRecipe = {
 			...recipe,
 			cookedBefore: checked
 		};
 		this.recipeService.updateRecipe(updateRecipe);
+	}
+
+	edit(e: any): void {
+		e.stopPropagation();
 	}
 }

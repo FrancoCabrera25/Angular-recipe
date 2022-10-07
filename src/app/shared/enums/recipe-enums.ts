@@ -1,5 +1,10 @@
 export enum RecipeDifficultylevelEnum {
-	EASY = 'Facil',
+	BEGINNER = 'Principiante',
 	MIDDLE = 'Intermedio',
-	HARD = 'Dificil'
+	PROFESSIONAL = 'Professional'
+}
+export enum RecipeActionEnum {
+	'ADDORUPDATE',
+	'VIEW',
+	'NONE'
 }

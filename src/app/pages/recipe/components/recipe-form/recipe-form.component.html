@@ -44,14 +44,15 @@
 		</div>
 		<mat-form-field class="container-description" appearance="standard">
 			<mat-label>Descripción</mat-label>
-			<textarea matInput formControlName="preparation" rows="6"></textarea>
+			<textarea matInput formControlName="preparation" rows="15"></textarea>
 		</mat-form-field>
 		<div>
 			<mat-slide-toggle name="enableWifi" formControlName="cookedBefore">Utilizada</mat-slide-toggle>
 		</div>
-	</div>
-	<div class="button-container">
-		<button class="button" mat-button color="primary" type="button" (click)="close()">Cerrar</button>
-		<button class="button" mat-raised-button color="primary" [disabled]="form.invalid">Guardar</button>
+
+		<div class="button-container">
+			<button class="button" mat-button color="primary" type="button" (click)="close()">Cerrar</button>
+			<button class="button" mat-raised-button color="primary" [disabled]="form.invalid">Guardar</button>
+		</div>
 	</div>
 </form>

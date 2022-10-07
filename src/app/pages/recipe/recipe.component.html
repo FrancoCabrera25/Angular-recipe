@@ -1,31 +1,69 @@
-<mat-drawer-container class="example-container" [hasBackdrop]="true">
+<mat-drawer-container class="drawer-container" [hasBackdrop]="true">
 	<mat-drawer-content>
-		<div class="container">
-			<h1>Recipe</h1>
-
-			<app-recipe-table
+		<div class="row">
+			<div class="item">
+				<div class="filter-container">
+					<div class="filter">
+						<app-search (inputValueEvent)="filterSearch($event)"></app-search>
+					</div>
+					<div class="filter">
+						<mat-form-field class="filter-item" appearance="outline">
+							<mat-label>Ordenar por</mat-label>
+							<mat-select [value]="sortIdSelected" (selectionChange)="orderRecipe($event)">
+								<mat-option *ngFor="let order of orderList" [value]="order.id">
+									{{ order.text }}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<div class="card-list-container">
+					<ng-container
+						*ngFor="
+							let recipe of recipeList | customfilter: 'title':filterValue | sortBy: sortOrderSelected:sortSelected
+						"
+					>
+						<app-recipe-card
+							[recipe]="recipe"
+							(viewMoreEvent)="viewRecipe(recipe)"
+							(changeCookedBeforeEvent)="setCookedBefore(recipe, $event)"
+							(changeReviewsEvent)="setReview(recipe, $event)"
+						></app-recipe-card>
+					</ng-container>
+				</div>
+			</div>
+		</div>
+		<div class="button-add">
+			<button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="addRecipe()">
+				<mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+			</button>
+		</div>
+		<!-- <app-recipe-table
 				*ngIf="recipeList.length > 0"
 				[dataSource]="recipeList"
 				[displayedColumns]="tableColumns"
-				(recipeSelectedEvent)="updateRecipe($event)"
-			></app-recipe-table>
-
-			<div class="button-add">
-				<button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="addRecipe()">
-					<mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
-				</button>
-			</div>
-		</div>
+				(recipeSelectedEvent)="viewRecipe($event)"
+			></app-recipe-table> -->
 	</mat-drawer-content>
 	<mat-drawer
 		#drawer
-		class="example-sidenav"
+		class="drawer"
 		[opened]="openDrawer"
 		[mode]="'over'"
 		position="end"
 		[disableClose]="false"
 		(closedStart)="closeDrawer()"
 	>
-		<app-recipe-form (buttonClickedEvent)="closeDrawer()"></app-recipe-form>
+		<app-recipe-form
+			*ngIf="actionSelected === actions.ADDORUPDATE"
+			(buttonClickedEvent)="closeDrawer()"
+		></app-recipe-form>
+		<app-recipe-view
+			*ngIf="actionSelected === actions.VIEW"
+			(updateRecipeEvent)="updateRecipe()"
+			(deleteRecipeEvent)="deleteRecipe($event)"
+		></app-recipe-view>
 	</mat-drawer>
 </mat-drawer-container>

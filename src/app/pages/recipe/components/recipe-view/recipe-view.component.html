@@ -1,0 +1,41 @@
+<div class="container">
+	<h1 class="title">{{ recipe.title }}</h1>
+	<div class="item">
+		<h3 class="sub-title">Dificultad</h3>
+		<span>{{ recipe.difficultyLevel }}</span>
+	</div>
+
+	<div class="item">
+		<h3 class="sub-title">Ingredientes</h3>
+		<mat-list role="list">
+			<mat-divider></mat-divider>
+			<ng-container *ngFor="let ingredient of recipe.ingredients; index as i">
+				<mat-list-item role="listitem">{{ ingredient }} </mat-list-item>
+				<mat-divider></mat-divider>
+			</ng-container>
+		</mat-list>
+	</div>
+	<div class="item">
+		<h3 class="sub-title">Preparacion</h3>
+		{{ recipe.preparation }}
+	</div>
+	<mat-divider></mat-divider>
+	<div class="item">
+		<h3 class="sub-title">Calificación</h3>
+		<app-rating [element]="recipe.reviews"></app-rating>
+	</div>
+	<mat-divider></mat-divider>
+	<div class="item">
+		<h3 class="sub-title">Utilizada</h3>
+		<mat-slide-toggle
+			[disabled]="true"
+			class="toggle"
+			[color]="'#8DC63F'"
+			[checked]="recipe.cookedBefore"
+		></mat-slide-toggle>
+	</div>
+	<div class="button-container">
+		<button class="button" mat-button color="primary" type="button" (click)="delete()">Eliminar</button>
+		<button class="button" mat-raised-button color="primary" (click)="update()">Editar</button>
+	</div>
+</div>

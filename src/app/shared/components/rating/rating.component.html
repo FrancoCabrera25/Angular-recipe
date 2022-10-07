@@ -4,6 +4,7 @@
 	*ngFor="let ratingId of ratingArr; index as i"
 	[id]="'star_' + i"
 	(click)="onClick(i + 1)"
+	disabled="{{ disabled }}"
 >
 	<mat-icon class="star checked" *ngIf="element >= i + 1"> star </mat-icon>
 	<mat-icon class="star unchecked" *ngIf="element <= i"> star </mat-icon>
