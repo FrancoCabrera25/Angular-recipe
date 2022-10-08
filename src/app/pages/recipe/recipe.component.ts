@@ -1,3 +1,4 @@
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Subject } from 'rxjs';
@@ -12,17 +13,15 @@ import { IRecipe } from '../../shared/interface/recipe.interface';
 })
 export class RecipeComponent implements OnInit, OnDestroy {
 	private destroy$: Subject<void> = new Subject<void>();
-	//tableColumns: Map<string, string> = new Map<string, string>();
-	/* A variable that contains the mock data. */
 	recipeList: IRecipe[] = [];
 	tableColumns: Array<string> = ['name', 'difficultyLevel', 'reviews', 'cookedBefore', 'creationDate'];
 	openDrawer: boolean = false;
 
+	modeViewLayoutRecipe: 'CARD' | 'TABLE' = 'CARD';
+
 	actions = RecipeActionEnum;
 	actionSelected = RecipeActionEnum.NONE;
-
 	filterValue: string = '';
-
 	sortSelected: string = 'creationDate';
 	sortIdSelected = 1;
 	sortOrderSelected: 'desc' | 'asc' = 'desc';
@@ -33,9 +32,14 @@ export class RecipeComponent implements OnInit, OnDestroy {
 		{ id: 3, text: 'Mejores calificadas', order: 'desc', field: 'reviews' },
 		{ id: 4, text: 'Peores calificadas', order: 'asc', field: 'reviews' }
 	];
-	constructor(private recipeService: RecipeService) {}
+	constructor(private recipeService: RecipeService, private breakpointObserver: BreakpointObserver) {}
 	ngOnInit(): void {
 		this.loadRecipe();
+		this.breakpointObserver.observe(['(min-width: 700px)']).subscribe((state: BreakpointState) => {
+			if (!state.matches) {
+				this.modeViewLayoutRecipe = 'CARD';
+			}
+		});
 	}
 	loadRecipe(): void {
 		this.recipeService.currentRecipe$.pipe(takeUntil(this.destroy$)).subscribe((_recipe) => {
@@ -48,7 +52,6 @@ export class RecipeComponent implements OnInit, OnDestroy {
 		this.actionSelected = RecipeActionEnum.ADDORUPDATE;
 	}
 	viewRecipe(recipe: IRecipe): void {
-		console.log('view');
 		this.recipeService.setRecipeSelected(recipe);
 		this.actionSelected = RecipeActionEnum.VIEW;
 		this.showDrawer();
@@ -91,11 +94,14 @@ export class RecipeComponent implements OnInit, OnDestroy {
 		this.filterValue = filterValue;
 	}
 	orderRecipe({ value }: MatSelectChange): void {
-		this.sortSelected = '';
 		const selected = this.orderList.find((f) => f.id === value);
 		this.sortIdSelected = value;
 		this.sortSelected = selected.field;
 		this.sortOrderSelected = selected.order;
+	}
+
+	changeView(view: 'CARD' | 'TABLE'): void {
+		this.modeViewLayoutRecipe = view;
 	}
 	ngOnDestroy(): void {
 		this.destroy$.next();

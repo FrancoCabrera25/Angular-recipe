@@ -3,10 +3,27 @@
 		<div class="row">
 			<div class="item">
 				<div class="filter-container">
+					<button
+						mat-mini-fab
+						color="primary"
+						class="button-fab"
+						[ngStyle]="{ 'background-color': modeViewLayoutRecipe === 'CARD' ? 'green' : 'grey' }"
+						(click)="changeView('CARD')"
+					>
+						<mat-icon class="icon">list</mat-icon>
+					</button>
+					<button
+						mat-mini-fab
+						class="button-fab"
+						(click)="changeView('TABLE')"
+						[ngStyle]="{ 'background-color': modeViewLayoutRecipe === 'TABLE' ? 'green' : 'grey' }"
+					>
+						<mat-icon class="icon">table_chart</mat-icon>
+					</button>
 					<div class="filter">
 						<app-search (inputValueEvent)="filterSearch($event)"></app-search>
 					</div>
-					<div class="filter">
+					<div class="sort-container">
 						<mat-form-field class="filter-item" appearance="outline">
 							<mat-label>Ordenar por</mat-label>
 							<mat-select [value]="sortIdSelected" (selectionChange)="orderRecipe($event)">
@@ -18,7 +35,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="item">
+			<div class="item" *ngIf="modeViewLayoutRecipe === 'CARD'">
 				<div class="card-list-container">
 					<ng-container
 						*ngFor="
@@ -34,18 +51,23 @@
 					</ng-container>
 				</div>
 			</div>
+			<div class="item-table" *ngIf="modeViewLayoutRecipe === 'TABLE'">
+				<app-recipe-table
+					*ngIf="recipeList.length > 0"
+					[dataSource]="recipeList"
+					[filterValue]="filterValue"
+					[sortValue]="sortSelected"
+					[sortOrder]="sortOrderSelected"
+					[displayedColumns]="tableColumns"
+					(recipeSelectedEvent)="viewRecipe($event)"
+				></app-recipe-table>
+			</div>
 		</div>
 		<div class="button-add">
 			<button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="addRecipe()">
 				<mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
 			</button>
 		</div>
-		<!-- <app-recipe-table
-				*ngIf="recipeList.length > 0"
-				[dataSource]="recipeList"
-				[displayedColumns]="tableColumns"
-				(recipeSelectedEvent)="viewRecipe($event)"
-			></app-recipe-table> -->
 	</mat-drawer-content>
 	<mat-drawer
 		#drawer

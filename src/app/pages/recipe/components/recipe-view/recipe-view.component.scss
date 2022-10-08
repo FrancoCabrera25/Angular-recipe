@@ -10,14 +10,39 @@
 	text-align: center;
 }
 .item {
-	margin-top: 45px;
-	margin-bottom: 35px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.section-header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.inline {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.reviews-title {
+	margin-top: 15px !important;
+	margin-right: 15px !important;
+}
+
+.difficulty-level {
+	margin-left: 5px;
 }
 
 .sub-title {
 	margin: 0;
-
 	font-weight: bold;
+	font-size: 16px;
+}
+.toggle {
+	margin-left: 10px;
+}
+.preparation {
+	margin-bottom: 15px;
 }
 
 .button-container {

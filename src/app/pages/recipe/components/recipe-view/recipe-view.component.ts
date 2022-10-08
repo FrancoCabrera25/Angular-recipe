@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { getColorDifficultyLevel } from 'src/app/shared/utils/utils';
 import { RecipeService } from '../../../../core/service/recipe.service';
 import { IRecipe } from '../../../../shared/interface/recipe.interface';
 
@@ -38,5 +39,8 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
 	update(): void {
 		console.log('update');
 		this.updateRecipeEvent.emit();
+	}
+	getcolorDifficultyLevel(level: string): string {
+		return getColorDifficultyLevel(level);
 	}
 }

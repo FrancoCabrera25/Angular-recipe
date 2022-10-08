@@ -25,3 +25,9 @@
 	display: flex;
 	justify-content: space-between;
 }
+
+@media screen and (min-width: 700px) and (max-width: 1200px) {
+	:host {
+		width: 45%;
+	}
+}

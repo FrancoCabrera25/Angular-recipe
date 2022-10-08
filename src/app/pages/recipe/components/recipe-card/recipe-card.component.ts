@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { getColorDifficultyLevel } from 'src/app/shared/utils/utils';
 import { IRecipe } from '../../../../shared/interface/recipe.interface';
 
 @Component({
@@ -25,5 +26,9 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
 	}
 	changeCookedBefore({ checked }: MatSlideToggleChange): void {
 		this.changeCookedBeforeEvent.emit(checked);
+	}
+
+	getcolorDifficultyLevel(level: string): string {
+		return getColorDifficultyLevel(level);
 	}
 }

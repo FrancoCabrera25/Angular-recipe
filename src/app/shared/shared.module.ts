@@ -10,6 +10,6 @@ import { SortByPipe } from './pipes/sort.pipe';
 	declarations: [FilterPipe, SortByPipe, RatingComponent, SearchComponent],
 	imports: [CommonModule, AngularMaterialModule],
 	exports: [FilterPipe, SortByPipe, AngularMaterialModule, RatingComponent, SearchComponent],
-	providers: []
+	providers: [FilterPipe, SortByPipe]
 })
 export class SharedModule {}

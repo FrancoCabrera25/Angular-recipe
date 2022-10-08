@@ -1,10 +1,29 @@
 <div class="container">
-	<h1 class="title">{{ recipe.title }}</h1>
-	<div class="item">
-		<h3 class="sub-title">Dificultad</h3>
-		<span>{{ recipe.difficultyLevel }}</span>
+	<h1 class="title">{{ recipe.title | titlecase }}</h1>
+	<mat-divider></mat-divider>
+	<div class="section-header">
+		<div class="item inline">
+			<h3 class="sub-title">Activa</h3>
+			<mat-slide-toggle
+				[disabled]="true"
+				class="toggle"
+				[color]="'#8DC63F'"
+				[checked]="recipe.cookedBefore"
+			></mat-slide-toggle>
+		</div>
+		<div class="item inline">
+			<h3 class="sub-title">Dificultad:</h3>
+			<span class="difficulty-level" [ngStyle]="{ color: getcolorDifficultyLevel(recipe.difficultyLevel) }">{{
+				recipe.difficultyLevel
+			}}</span>
+		</div>
 	</div>
-
+	<mat-divider></mat-divider>
+	<div class="item inline">
+		<h3 class="sub-title reviews-title">Calificación</h3>
+		<app-rating [element]="recipe.reviews"></app-rating>
+	</div>
+	<mat-divider></mat-divider>
 	<div class="item">
 		<h3 class="sub-title">Ingredientes</h3>
 		<mat-list role="list">
@@ -16,23 +35,10 @@
 		</mat-list>
 	</div>
 	<div class="item">
-		<h3 class="sub-title">Preparacion</h3>
-		{{ recipe.preparation }}
-	</div>
-	<mat-divider></mat-divider>
-	<div class="item">
-		<h3 class="sub-title">Calificación</h3>
-		<app-rating [element]="recipe.reviews"></app-rating>
-	</div>
-	<mat-divider></mat-divider>
-	<div class="item">
-		<h3 class="sub-title">Utilizada</h3>
-		<mat-slide-toggle
-			[disabled]="true"
-			class="toggle"
-			[color]="'#8DC63F'"
-			[checked]="recipe.cookedBefore"
-		></mat-slide-toggle>
+		<h3 class="sub-title preparation">Preparacion</h3>
+		<span>
+			{{ recipe.preparation }}
+		</span>
 	</div>
 	<div class="button-container">
 		<button class="button" mat-button color="primary" type="button" (click)="delete()">Eliminar</button>

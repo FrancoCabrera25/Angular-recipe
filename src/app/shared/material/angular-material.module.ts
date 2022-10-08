@@ -1,3 +1,4 @@
+import { LayoutModule } from '@angular/cdk/layout';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -29,7 +30,8 @@ import { MatTableModule } from '@angular/material/table';
 		MatTableModule,
 		MatSidenavModule,
 		MatSlideToggleModule,
-		MatListModule
+		MatListModule,
+		LayoutModule
 	],
 	exports: [
 		MatCardModule,
@@ -45,7 +47,8 @@ import { MatTableModule } from '@angular/material/table';
 		MatTableModule,
 		MatSidenavModule,
 		MatSlideToggleModule,
-		MatListModule
+		MatListModule,
+		LayoutModule
 	],
 	providers: []
 })
