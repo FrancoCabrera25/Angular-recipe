@@ -1,6 +1,8 @@
+# Aplicacion de gestión de receta para demostrar el funcionamiento de un simple crud usando servicios y angular material.
+
 # App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.11.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.9.
 
 ## Development server
 
