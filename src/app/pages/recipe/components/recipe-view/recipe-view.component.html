@@ -21,7 +21,7 @@
 	<mat-divider></mat-divider>
 	<div class="item inline">
 		<h3 class="sub-title reviews-title">Calificación</h3>
-		<app-rating [element]="recipe.reviews"></app-rating>
+		<app-rating [currentRanking]="recipe.reviews"></app-rating>
 	</div>
 	<mat-divider></mat-divider>
 	<div class="item">
@@ -41,7 +41,11 @@
 		</span>
 	</div>
 	<div class="button-container">
-		<button class="button" mat-button color="primary" type="button" (click)="delete()">Eliminar</button>
-		<button class="button" mat-raised-button color="primary" (click)="update()">Editar</button>
+		<button data-testid="deleteButton" class="button" mat-button color="primary" type="button" (click)="delete()">
+			Eliminar
+		</button>
+		<button data-testid="updateButton" class="button" mat-raised-button color="primary" (click)="update()">
+			Editar
+		</button>
 	</div>
 </div>

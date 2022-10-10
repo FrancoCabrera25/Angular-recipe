@@ -13,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 @NgModule({
 	declarations: [],
@@ -31,7 +32,8 @@ import { MatTableModule } from '@angular/material/table';
 		MatSidenavModule,
 		MatSlideToggleModule,
 		MatListModule,
-		LayoutModule
+		LayoutModule,
+		MatSnackBarModule
 	],
 	exports: [
 		MatCardModule,
@@ -48,7 +50,8 @@ import { MatTableModule } from '@angular/material/table';
 		MatSidenavModule,
 		MatSlideToggleModule,
 		MatListModule,
-		LayoutModule
+		LayoutModule,
+		MatSnackBarModule
 	],
 	providers: []
 })

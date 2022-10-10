@@ -28,17 +28,23 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 	];
 
 	ngOnInit(): void {
-		window.scrollTo(0, 0);
-		this.initForm();
-		this.recipeService.recipeSelected$.pipe(takeUntil(this.destroy$)).subscribe((_recipe) => {
-			if (Object.keys(_recipe).length > 0) {
-				this.isEditing = true;
-				this.recipeId = _recipe.id;
-				this.initForm(_recipe);
-			} else {
-				this.isEditing = false;
-			}
-		});
+		this.getRecipeSelected();
+	}
+
+	getRecipeSelected(): void {
+		this.recipeService
+			.getRecipeSelected()
+			.pipe(takeUntil(this.destroy$))
+			.subscribe((_recipe) => {
+				if (Object.keys(_recipe).length > 0) {
+					this.isEditing = true;
+					this.recipeId = _recipe.id;
+					this.initForm(_recipe);
+				} else {
+					this.initForm();
+					this.isEditing = false;
+				}
+			});
 	}
 
 	get ingredients() {
@@ -57,20 +63,6 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 			preparation: [recipe ? recipe.preparation : '', Validators.required],
 			cookedBefore: [recipe ? recipe.cookedBefore : '']
 		});
-	}
-	clearForm(): void {
-		this.form.controls['title'].reset();
-		// this.form.controls
-		// 	title: '',
-		// 	ingredients: [new FormControl('')],
-		// 	difficultyLevel: '',
-		// 	reviews: '',
-		// 	preparation: '',
-		// 	cookedBefore: ''
-		// });
-		// console.log(this.form.value);
-		// this.form.markAsTouched();
-		//this.form.markAsUntouched();
 	}
 	setIngredients(ingredients: string[]): FormArray {
 		const formControl: FormControl[] = [];
@@ -115,7 +107,6 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 		//this.initForm();
 		this.form.markAsPristine();
 		this.form.markAsUntouched();
-		this.clearForm();
 		this.buttonClickedEvent.emit();
 	}
 

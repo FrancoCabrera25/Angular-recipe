@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { RecipeDifficultylevelEnum } from 'src/app/shared/enums/recipe-enums';
 import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
-import { RecipeService } from '../../../../core/service/recipe.service';
+import { getColorDifficultyLevel } from 'src/app/shared/utils/utils';
 import { IRecipe } from '../../../../shared/interface/recipe.interface';
 import { SortByPipe } from '../../../../shared/pipes/sort.pipe';
 
@@ -18,9 +17,11 @@ export class RecipeTableComponent implements OnInit, OnChanges {
 	@Input() sortValue: string = '';
 	@Input() sortOrder: 'asc' | 'desc' = 'asc';
 	@Output() recipeSelectedEvent = new EventEmitter<IRecipe>();
+	@Output() changeReviewsEvent = new EventEmitter<{ recipe: IRecipe; reviews: number }>();
+	@Output() changeCookedBeforeEvent = new EventEmitter<{ recipe: IRecipe; cookedBefore: boolean }>();
 	recipeSelected!: IRecipe;
 	recipeFiltered: IRecipe[] = [];
-	constructor(private recipeService: RecipeService, private filterPipe: FilterPipe, private sortPipe: SortByPipe) {}
+	constructor(private filterPipe: FilterPipe, private sortPipe: SortByPipe) {}
 
 	ngOnInit(): void {
 		this.recipeFiltered = [...this.dataSource];
@@ -55,37 +56,19 @@ export class RecipeTableComponent implements OnInit, OnChanges {
 	}
 
 	selectRecipeRow(recipe: IRecipe): void {
+		console.log('selected');
 		this.recipeSelected = recipe;
 		this.recipeSelectedEvent.emit(recipe);
 	}
 
-	getBadgeDifficultyLevel(level: string): string {
-		return RecipeDifficultylevelEnum.BEGINNER === level
-			? 'badge-difficulty-level-easy'
-			: RecipeDifficultylevelEnum.MIDDLE == level
-			? 'badge-difficulty-level-middle'
-			: RecipeDifficultylevelEnum.PROFESSIONAL === level
-			? 'badge-difficulty-level-hard'
-			: '';
+	getcolorDifficultyLevel(level: string): string {
+		return getColorDifficultyLevel(level);
 	}
 	setRanking(recipe: IRecipe, reviews: number): void {
-		const updateRecipe: IRecipe = {
-			...recipe,
-			reviews
-		};
-		this.recipeService.updateRecipe(updateRecipe);
+		this.changeReviewsEvent.emit({ recipe, reviews });
 	}
 
 	setCookedBefore(recipe: IRecipe, { checked }: MatSlideToggleChange): void {
-		this.recipeSelected = {} as IRecipe;
-		const updateRecipe: IRecipe = {
-			...recipe,
-			cookedBefore: checked
-		};
-		this.recipeService.updateRecipe(updateRecipe);
-	}
-
-	edit(e: any): void {
-		e.stopPropagation();
+		this.changeCookedBeforeEvent.emit({ recipe, cookedBefore: checked });
 	}
 }

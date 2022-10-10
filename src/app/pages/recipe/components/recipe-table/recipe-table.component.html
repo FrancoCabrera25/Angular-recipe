@@ -8,7 +8,7 @@
 	<ng-container matColumnDef="difficultyLevel">
 		<th mat-header-cell cdkDrag *matHeaderCellDef class="header-title">Dificultad</th>
 		<td mat-cell *matCellDef="let element" class="rows-name">
-			<span class="badge-difficulty-level" [ngClass]="getBadgeDifficultyLevel(element.difficultyLevel)">{{
+			<span class="badge-difficulty-level" [ngStyle]="{ color: getcolorDifficultyLevel(element.difficultyLevel) }">{{
 				element.difficultyLevel
 			}}</span>
 		</td>
@@ -16,13 +16,13 @@
 
 	<ng-container matColumnDef="reviews">
 		<th mat-header-cell cdkDrag *matHeaderCellDef class="header-title">Calificación</th>
-		<td mat-cell *matCellDef="let element">
-			<app-rating [element]="element.reviews" (rankingSelectedEvent)="setRanking(element, $event)"></app-rating>
+		<td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+			<app-rating [currentRanking]="element.reviews" (rankingSelectedEvent)="setRanking(element, $event)"></app-rating>
 		</td>
 	</ng-container>
 	<ng-container matColumnDef="cookedBefore" class="header-title">
 		<th mat-header-cell cdkDrag *matHeaderCellDef>Utilizada</th>
-		<td mat-cell *matCellDef="let element">
+		<td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
 			<mat-slide-toggle
 				class="toggle"
 				[color]="'#8DC63F'"
@@ -36,6 +36,7 @@
 	>
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 	<tr
+		data-testid="tablerow"
 		mat-row
 		*matRowDef="let row; columns: displayedColumns"
 		(click)="selectRecipeRow(row)"

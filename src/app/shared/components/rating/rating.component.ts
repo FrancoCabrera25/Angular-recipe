@@ -9,7 +9,7 @@ export class RatingComponent implements OnInit {
 	constructor() {}
 	@Input() disabled: boolean = false;
 	@Input() color: string = 'accent';
-	@Input() element: number = 0;
+	@Input() currentRanking: number = 0;
 	@Output() rankingSelectedEvent = new EventEmitter<number>();
 	ratingArr: Array<Number> = new Array<number>(5);
 
@@ -17,13 +17,5 @@ export class RatingComponent implements OnInit {
 
 	onClick(number: number): void {
 		this.rankingSelectedEvent.emit(number);
-	}
-
-	showIcon(index: number, element: any) {
-		if (element >= index + 1) {
-			return 'star';
-		} else {
-			return 'star_border';
-		}
 	}
 }

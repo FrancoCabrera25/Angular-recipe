@@ -26,7 +26,7 @@
 		<div class="actions">
 			<button mat-flat-button color="primary" (click)="viewMore()">Ver mas</button>
 
-			<app-rating [element]="recipe.reviews" (rankingSelectedEvent)="changeReviews($event)"></app-rating>
+			<app-rating [currentRanking]="recipe.reviews" (rankingSelectedEvent)="changeReviews($event)"></app-rating>
 		</div>
 	</mat-card-actions>
 	<mat-card-footer>

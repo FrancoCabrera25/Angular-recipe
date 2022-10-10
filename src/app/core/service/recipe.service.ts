@@ -5,13 +5,21 @@ import { IRecipe } from '../../shared/interface/recipe.interface';
 @Injectable()
 export class RecipeService {
 	private currentRecipe = new BehaviorSubject<IRecipe[]>([]);
-	currentRecipe$: Observable<IRecipe[]> = this.currentRecipe.asObservable();
+	recipeList$: Observable<IRecipe[]> = this.currentRecipe.asObservable();
 
 	private recipeSelected = new BehaviorSubject<IRecipe>({} as IRecipe);
 	recipeSelected$: Observable<IRecipe> = this.recipeSelected.asObservable();
 
 	constructor() {
 		this.loadRecipe();
+	}
+
+	getRecipeList(): Observable<IRecipe[]> {
+		return this.recipeList$;
+	}
+
+	getRecipeSelected(): Observable<IRecipe> {
+		return this.recipeSelected$;
 	}
 	loadRecipe(): void {
 		this.currentRecipe.next(this.getRecipeByLocalStorage());
@@ -56,11 +64,11 @@ export class RecipeService {
 		this.currentRecipe.next(currentTask);
 	}
 
-	getRecipeByLocalStorage(): IRecipe[] {
+	private getRecipeByLocalStorage(): IRecipe[] {
 		return localStorage.getItem('recipes') ? JSON.parse(localStorage.getItem('recipes')!) : [];
 	}
 
-	setRecipeByLocalStorage(recipe: IRecipe[]): void {
+	private setRecipeByLocalStorage(recipe: IRecipe[]): void {
 		localStorage.setItem('recipes', JSON.stringify(recipe));
 	}
 }

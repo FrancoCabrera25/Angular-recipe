@@ -1,8 +1,11 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DialogConfirmationComponent } from 'src/app/shared/components/dialogs/dialog-confirmation.component';
 import { RecipeActionEnum } from 'src/app/shared/enums/recipe-enums';
 import { RecipeService } from '../../core/service/recipe.service';
 import { IRecipe } from '../../shared/interface/recipe.interface';
@@ -32,7 +35,12 @@ export class RecipeComponent implements OnInit, OnDestroy {
 		{ id: 3, text: 'Mejores calificadas', order: 'desc', field: 'reviews' },
 		{ id: 4, text: 'Peores calificadas', order: 'asc', field: 'reviews' }
 	];
-	constructor(private recipeService: RecipeService, private breakpointObserver: BreakpointObserver) {}
+	constructor(
+		private recipeService: RecipeService,
+		private breakpointObserver: BreakpointObserver,
+		public dialog: MatDialog,
+		private _snackBar: MatSnackBar
+	) {}
 	ngOnInit(): void {
 		this.loadRecipe();
 		this.breakpointObserver.observe(['(min-width: 700px)']).subscribe((state: BreakpointState) => {
@@ -42,9 +50,12 @@ export class RecipeComponent implements OnInit, OnDestroy {
 		});
 	}
 	loadRecipe(): void {
-		this.recipeService.currentRecipe$.pipe(takeUntil(this.destroy$)).subscribe((_recipe) => {
-			this.recipeList = _recipe;
-		});
+		this.recipeService
+			.getRecipeList()
+			.pipe(takeUntil(this.destroy$))
+			.subscribe((_recipe) => {
+				this.recipeList = _recipe;
+			});
 	}
 
 	addRecipe(): void {
@@ -60,11 +71,21 @@ export class RecipeComponent implements OnInit, OnDestroy {
 		this.actionSelected = RecipeActionEnum.ADDORUPDATE;
 	}
 	deleteRecipe(id: string): void {
-		this.recipeService.deleteRecipe(id);
-		this.showDrawer();
+		const dialogRef = this.dialog
+			.open(DialogConfirmationComponent, {
+				width: '250px'
+			})
+			.afterClosed()
+			.subscribe((result) => {
+				if (result) {
+					this.recipeService.deleteRecipe(id);
+					this.showDrawer();
+				}
+			});
 	}
 
-	setReview(recipe: IRecipe, reviews: number): void {
+	setReview(event: any): void {
+		const { recipe, reviews } = event;
 		const updateRecipe: IRecipe = {
 			...recipe,
 			reviews
@@ -72,10 +93,11 @@ export class RecipeComponent implements OnInit, OnDestroy {
 		this.recipeService.updateRecipe(updateRecipe);
 	}
 
-	setCookedBefore(recipe: IRecipe, checked: boolean): void {
+	setCookedBefore(event: any): void {
+		const { recipe, cookedBefore } = event;
 		const updateRecipe: IRecipe = {
 			...recipe,
-			cookedBefore: checked
+			cookedBefore
 		};
 		this.recipeService.updateRecipe(updateRecipe);
 	}
@@ -93,7 +115,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
 	filterSearch(filterValue: string): void {
 		this.filterValue = filterValue;
 	}
-	orderRecipe({ value }: MatSelectChange): void {
+	sortRecipe({ value }: MatSelectChange): void {
 		const selected = this.orderList.find((f) => f.id === value);
 		this.sortIdSelected = value;
 		this.sortSelected = selected.field;
@@ -103,6 +125,13 @@ export class RecipeComponent implements OnInit, OnDestroy {
 	changeView(view: 'CARD' | 'TABLE'): void {
 		this.modeViewLayoutRecipe = view;
 	}
+
+	// openSnackBar(message: string): void {
+	// 	this._snackBar.open(message,'',{
+	// 		horizontalPosition: 'center',
+	// 		verticalPosition: 'top'
+	// 	});
+	// }
 	ngOnDestroy(): void {
 		this.destroy$.next();
 		this.destroy$.complete();

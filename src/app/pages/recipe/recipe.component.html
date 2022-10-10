@@ -26,7 +26,7 @@
 					<div class="sort-container">
 						<mat-form-field class="filter-item" appearance="outline">
 							<mat-label>Ordenar por</mat-label>
-							<mat-select [value]="sortIdSelected" (selectionChange)="orderRecipe($event)">
+							<mat-select [value]="sortIdSelected" (selectionChange)="sortRecipe($event)">
 								<mat-option *ngFor="let order of orderList" [value]="order.id">
 									{{ order.text }}
 								</mat-option>
@@ -45,8 +45,8 @@
 						<app-recipe-card
 							[recipe]="recipe"
 							(viewMoreEvent)="viewRecipe(recipe)"
-							(changeCookedBeforeEvent)="setCookedBefore(recipe, $event)"
-							(changeReviewsEvent)="setReview(recipe, $event)"
+							(changeCookedBeforeEvent)="setCookedBefore($event)"
+							(changeReviewsEvent)="setReview($event)"
 						></app-recipe-card>
 					</ng-container>
 				</div>
@@ -60,6 +60,8 @@
 					[sortOrder]="sortOrderSelected"
 					[displayedColumns]="tableColumns"
 					(recipeSelectedEvent)="viewRecipe($event)"
+					(changeCookedBeforeEvent)="setCookedBefore($event)"
+					(changeReviewsEvent)="setReview($event)"
 				></app-recipe-table>
 			</div>
 		</div>

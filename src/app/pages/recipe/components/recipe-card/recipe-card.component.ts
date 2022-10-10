@@ -12,8 +12,8 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
 	@Input() recipe!: IRecipe;
 
 	@Output() viewMoreEvent = new EventEmitter<void>();
-	@Output() changeReviewsEvent = new EventEmitter<number>();
-	@Output() changeCookedBeforeEvent = new EventEmitter<boolean>();
+	@Output() changeReviewsEvent = new EventEmitter<{ recipe: IRecipe; reviews: number }>();
+	@Output() changeCookedBeforeEvent = new EventEmitter<{ recipe: IRecipe; cookedBefore: boolean }>();
 	ngOnDestroy(): void {}
 	ngOnInit(): void {}
 
@@ -22,10 +22,10 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
 	}
 
 	changeReviews(reviews: number): void {
-		this.changeReviewsEvent.emit(reviews);
+		this.changeReviewsEvent.emit({ recipe: this.recipe, reviews });
 	}
 	changeCookedBefore({ checked }: MatSlideToggleChange): void {
-		this.changeCookedBeforeEvent.emit(checked);
+		this.changeCookedBeforeEvent.emit({ recipe: this.recipe, cookedBefore: checked });
 	}
 
 	getcolorDifficultyLevel(level: string): string {

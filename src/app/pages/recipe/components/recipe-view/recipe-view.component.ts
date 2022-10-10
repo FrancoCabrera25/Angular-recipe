@@ -20,13 +20,19 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
 	constructor(private recipeService: RecipeService) {}
 
 	ngOnInit(): void {
-		window.scroll(0, 0);
-		this.recipeService.recipeSelected$.pipe(takeUntil(this.destroy$)).subscribe((_recipe) => {
-			if (Object.keys(_recipe).length > 0) {
-				this.recipe = _recipe;
-			}
-		});
+		this.getRecipeSelected();
 	}
+	getRecipeSelected(): void {
+		this.recipeService
+			.getRecipeSelected()
+			.pipe(takeUntil(this.destroy$))
+			.subscribe((_recipe) => {
+				if (Object.keys(_recipe).length > 0) {
+					this.recipe = _recipe;
+				}
+			});
+	}
+
 	ngOnDestroy(): void {
 		this.destroy$.next();
 		this.destroy$.complete();
@@ -37,7 +43,6 @@ export class RecipeViewComponent implements OnInit, OnDestroy {
 	}
 
 	update(): void {
-		console.log('update');
 		this.updateRecipeEvent.emit();
 	}
 	getcolorDifficultyLevel(level: string): string {
