@@ -43,6 +43,10 @@ export class RecipeComponent implements OnInit, OnDestroy {
 	) {}
 	ngOnInit(): void {
 		this.loadRecipe();
+		this.breakpointObserverCheck();
+	}
+
+	breakpointObserverCheck(): void {
 		this.breakpointObserver.observe(['(min-width: 700px)']).subscribe((state: BreakpointState) => {
 			if (!state.matches) {
 				this.modeViewLayoutRecipe = 'CARD';

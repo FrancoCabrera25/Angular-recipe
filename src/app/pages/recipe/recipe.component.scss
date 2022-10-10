@@ -58,6 +58,27 @@
 	color: white;
 }
 
+.not-data-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 25rem;
+	padding: 10px;
+}
+.not-data-title {
+	word-wrap: break-word;
+	text-align: center;
+	font-weight: bold;
+	font-size: 25px;
+}
+
+.no-data-button {
+	margin-top: 25px;
+	width: 100%;
+	font-size: 18px;
+}
+
 @media only screen and(min-width: 1200px) {
 	.filter-container {
 		display: flex;
@@ -85,6 +106,12 @@
 	}
 	.item-table {
 		width: 80%;
+	}
+	.not-data-title {
+		font-size: 35px;
+	}
+	.no-data-button {
+		width: 50%;
 	}
 }
 @media screen and (min-width: 700px) and (max-width: 1200px) {
@@ -115,5 +142,8 @@
 		display: block;
 		margin: 10px;
 		background-color: grey;
+	}
+	.no-data-button {
+		width: 50%;
 	}
 }

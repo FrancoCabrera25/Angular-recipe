@@ -1,75 +1,91 @@
 <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
 	<mat-drawer-content>
-		<div class="row">
-			<div class="item">
-				<div class="filter-container">
-					<button
-						mat-mini-fab
-						color="primary"
-						class="button-fab"
-						[ngStyle]="{ 'background-color': modeViewLayoutRecipe === 'CARD' ? 'green' : 'grey' }"
-						(click)="changeView('CARD')"
-					>
-						<mat-icon class="icon">list</mat-icon>
-					</button>
-					<button
-						mat-mini-fab
-						class="button-fab"
-						(click)="changeView('TABLE')"
-						[ngStyle]="{ 'background-color': modeViewLayoutRecipe === 'TABLE' ? 'green' : 'grey' }"
-					>
-						<mat-icon class="icon">table_chart</mat-icon>
-					</button>
-					<div class="filter">
-						<app-search (inputValueEvent)="filterSearch($event)"></app-search>
-					</div>
-					<div class="sort-container">
-						<mat-form-field class="filter-item" appearance="outline">
-							<mat-label>Ordenar por</mat-label>
-							<mat-select [value]="sortIdSelected" (selectionChange)="sortRecipe($event)">
-								<mat-option *ngFor="let order of orderList" [value]="order.id">
-									{{ order.text }}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
+		<ng-container *ngIf="recipeList.length === 0">
+			<div class="not-data-container">
+				<h1 class="not-data-title">Todavia no ingresaste ninguna receta, agrega tu primera receta</h1>
+				<button class="no-data-button" mat-raised-button color="primary" (click)="addRecipe()">Agregar receta</button>
+			</div>
+		</ng-container>
+		<ng-container *ngIf="recipeList.length !== 0">
+			<div class="row">
+				<div class="item">
+					<div class="filter-container">
+						<button
+							data-testid="viewCard"
+							mat-mini-fab
+							color="primary"
+							class="button-fab"
+							[ngStyle]="{ 'background-color': modeViewLayoutRecipe === 'CARD' ? 'green' : 'grey' }"
+							(click)="changeView('CARD')"
+						>
+							<mat-icon class="icon">list</mat-icon>
+						</button>
+						<button
+							data-testid="viewTable"
+							mat-mini-fab
+							class="button-fab"
+							(click)="changeView('TABLE')"
+							[ngStyle]="{ 'background-color': modeViewLayoutRecipe === 'TABLE' ? 'green' : 'grey' }"
+						>
+							<mat-icon class="icon">table_chart</mat-icon>
+						</button>
+						<div class="filter">
+							<app-search (inputValueEvent)="filterSearch($event)"></app-search>
+						</div>
+						<div class="sort-container">
+							<mat-form-field class="filter-item" appearance="outline">
+								<mat-label>Ordenar por</mat-label>
+								<mat-select [value]="sortIdSelected" (selectionChange)="sortRecipe($event)">
+									<mat-option *ngFor="let order of orderList" [value]="order.id">
+										{{ order.text }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="item" *ngIf="modeViewLayoutRecipe === 'CARD'">
-				<div class="card-list-container">
-					<ng-container
-						*ngFor="
-							let recipe of recipeList | customfilter: 'title':filterValue | sortBy: sortOrderSelected:sortSelected
-						"
-					>
-						<app-recipe-card
-							[recipe]="recipe"
-							(viewMoreEvent)="viewRecipe(recipe)"
-							(changeCookedBeforeEvent)="setCookedBefore($event)"
-							(changeReviewsEvent)="setReview($event)"
-						></app-recipe-card>
-					</ng-container>
+				<div class="item" *ngIf="modeViewLayoutRecipe === 'CARD'">
+					<div class="card-list-container">
+						<ng-container
+							*ngFor="
+								let recipe of recipeList | customfilter: 'title':filterValue | sortBy: sortOrderSelected:sortSelected
+							"
+						>
+							<app-recipe-card
+								[recipe]="recipe"
+								(viewMoreEvent)="viewRecipe(recipe)"
+								(changeCookedBeforeEvent)="setCookedBefore($event)"
+								(changeReviewsEvent)="setReview($event)"
+							></app-recipe-card>
+						</ng-container>
+					</div>
+				</div>
+				<div class="item-table" *ngIf="modeViewLayoutRecipe === 'TABLE'">
+					<app-recipe-table
+						*ngIf="recipeList.length > 0"
+						[dataSource]="recipeList"
+						[filterValue]="filterValue"
+						[sortValue]="sortSelected"
+						[sortOrder]="sortOrderSelected"
+						[displayedColumns]="tableColumns"
+						(recipeSelectedEvent)="viewRecipe($event)"
+						(changeCookedBeforeEvent)="setCookedBefore($event)"
+						(changeReviewsEvent)="setReview($event)"
+					></app-recipe-table>
 				</div>
 			</div>
-			<div class="item-table" *ngIf="modeViewLayoutRecipe === 'TABLE'">
-				<app-recipe-table
-					*ngIf="recipeList.length > 0"
-					[dataSource]="recipeList"
-					[filterValue]="filterValue"
-					[sortValue]="sortSelected"
-					[sortOrder]="sortOrderSelected"
-					[displayedColumns]="tableColumns"
-					(recipeSelectedEvent)="viewRecipe($event)"
-					(changeCookedBeforeEvent)="setCookedBefore($event)"
-					(changeReviewsEvent)="setReview($event)"
-				></app-recipe-table>
+			<div class="button-add">
+				<button
+					data-testid="addButton"
+					mat-fab
+					color="primary"
+					aria-label="Example icon button with a delete icon"
+					(click)="addRecipe()"
+				>
+					<mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+				</button>
 			</div>
-		</div>
-		<div class="button-add">
-			<button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="addRecipe()">
-				<mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
-			</button>
-		</div>
+		</ng-container>
 	</mat-drawer-content>
 	<mat-drawer
 		#drawer
